@@ -21,6 +21,8 @@
    .area-forca {
     display: flex;
     flex-direction: row;
+
+    margin-top: 50px;
   
   }
 
@@ -50,6 +52,8 @@
     background-color: #27AE60;
     color: #FFF;
     font-weight: bold;
+
+    margin-top: 30px;
   }
 
   .area-palavra .letra {
@@ -66,8 +70,8 @@
     justify-content: center;
     /* margin-right: 100px;
     margin-left: 100px; */
-    margin-left: 400px;
-    margin-right: 400px;
+    margin-left: 370px;
+    margin-right: 370px;
   }
   
   .area-alfabeto button {
