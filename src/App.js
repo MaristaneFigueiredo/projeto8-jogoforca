@@ -16,30 +16,55 @@ export default function App() {
 
     const [imagemForca, setImagemForca] = useState(forca0)
     const [desabilitaAlfabeto, setDesabilitaAlfabeto] = useState(true)
+    const [palavra, setPalavra] = useState([])
+    const [qtdErros, setQtdErros] = useState(0)
 
 
     function exibeLetraAlfabeto(letra) {
 
         return (
             // <button className="btn-letra" disabled={desabilitaAlfabeto}  data-identifier="letter" data-index={letra} key={letra} onClick={() => palpitaLetra(letra)}>
-             <button className="btn-letra" disabled={desabilitaAlfabeto}  data-identifier="letter" data-index={letra} key={letra}>
+            <button className="btn-letra" disabled={desabilitaAlfabeto} data-identifier="letter" data-index={letra} key={letra}>
                 {letra}
             </button>
         )
+    }
+
+    function exibirLetras(index) {
+        return (
+            <span key={index} className="letra">___</span>
+        )
+    }
+
+    function reiniciaJogo() {
+        setDesabilitaAlfabeto(false)
+        setQtdErros(0)
+        sortearPalavra()
+    }
+
+    function sortearPalavra() {
+        const index = Math.floor(Math.random() * (palavras.length));        
+        console.log('Palavra Sorteada', palavras[index])
+
+        setPalavra(Array.from(palavras[index]))
+
+
     }
 
     return (
         <div className="cenario">
             <div className="area-forca">
                 <div className="imagem-forca">
-                <img src={imagemForca} alt="" data-identifier="game-image" />
-
+                    <img src={imagemForca} alt="" data-identifier="game-image" />
                 </div>
+
                 <div className="area-palavra">
                     <div >
-                        <button className="btn-escolher-palavra">Escolher Palavra</button>
-                    </div>                    
-                    
+                        <button className="btn-escolher-palavra" onClick={reiniciaJogo}>Escolher Palavra</button>
+                    </div>
+                    <div>
+                        {palavra.map((p, index) => exibirLetras(index))}
+                    </div>
                 </div>
 
             </div>
@@ -49,7 +74,7 @@ export default function App() {
             </div>
             <div className="area-input">
                 <div>Já sei a palavra!</div>
-                <div><input  disabled={desabilitaAlfabeto} /></div>
+                <div><input disabled={desabilitaAlfabeto} /></div>
                 <div><button className="btn-chutar" disabled={desabilitaAlfabeto}>Chutar</button></div>
 
             </div>

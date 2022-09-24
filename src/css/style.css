@@ -28,11 +28,18 @@
 
   .area-forca .imagem-forca {
     justify-content: flex-start;
+
+  
   }  
+  /* .imagem-forca{
+    margin-left: 370px;
+    margin-right: 370px;
+  } */
 
   .imagem-forca img {
     height: 400px;
     width: 400px;
+   
   }
   
   .area-palavra {    
@@ -40,8 +47,11 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: end;
-    margin-left: 400px;
-    margin-right: 100px;
+    /* margin-left: 400px;
+    margin-right: 100px; */
+
+    margin-left: 370px;
+    margin-right: 370px;
   }
 
   .btn-escolher-palavra {
@@ -54,12 +64,21 @@
     font-weight: bold;
 
     margin-top: 30px;
+
+    
   }
+
+  /* .map-escolher-palavra{
+    margin-left: 370px;
+    margin-right: 370px;
+
+  } */
 
   .area-palavra .letra {
     font-size: 24px;
     font-weight: bold;
     padding-left: 20px;
+
   }
   
 
@@ -127,6 +146,8 @@ div button {
   .letra {
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
+
+    
   }
   
   .escondido {
