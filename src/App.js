@@ -20,8 +20,9 @@ export default function App() {
     const [qtdErros, setQtdErros] = useState(0)
     const [letrasEscolhidas, setLetrasEscolhidas] = useState([])
     const [qtdPalpites, setQtdPalpites] = useState(0)
+    const [chute, setChute] = useState('')
 
-    
+
 
     function palpitaLetra(letra) {
 
@@ -32,7 +33,7 @@ export default function App() {
         verificarPalpite(letra)
     }
 
-    function verificarPalpite(letra){
+    function verificarPalpite(letra) {
         let acertou = false
         let erros = qtdErros
         let palpites = qtdPalpites
@@ -40,20 +41,40 @@ export default function App() {
         setQtdPalpites(palpites)
 
         palavra.forEach((e, index) => {
-            if ( removeAcento( e) === removeAcento( letra)) {
+            if (removeAcento(e) === removeAcento(letra)) {
                 document.querySelector(`span[data-index="${index}"]`).textContent = e
                 acertou = true
             }
         })
 
-        if (!acertou){
-            erros +=1
+        if (!acertou) {
+            erros += 1
             setQtdErros(erros)
             // console.log('qtdErros antes =', erros)
             atualizaImagemForca(erros)
         }
 
         const passouLimiteErros = jogoFinalizado(erros)
+        const usuarioGanhou = usuarioVenceu()
+        const fimdeJogo = passouLimiteErros || usuarioGanhou
+
+        setDesabilitaAlfabeto(fimdeJogo)
+
+        if (fimdeJogo && usuarioGanhou) {
+            exibePalavraVerde()
+        }
+        else if (fimdeJogo && !usuarioGanhou) {
+            exibePalavraVermelho()
+        }
+    }
+
+    function usuarioVenceu() {
+        const palpites = letrasEscolhidas
+        const palavraSemAcento = removeAcento(palavra.join(''))
+        const palpitesCertos = palpites.filter((p) => {
+            if (palavraSemAcento.indexOf(removeAcento(p)) !== -1)
+                return p
+        })
     }
 
     function jogoFinalizado(erros) {
@@ -94,7 +115,7 @@ export default function App() {
     function exibeLetraAlfabeto(letra) {
 
         return (
-            <button className="btn-letra" disabled={desabilitaAlfabeto}  data-identifier="letter" data-index={letra} key={letra} onClick={() => palpitaLetra(letra)}>           
+            <button className="btn-letra" disabled={desabilitaAlfabeto} data-identifier="letter" data-index={letra} key={letra} onClick={() => palpitaLetra(letra)}>
                 {letra}
             </button>
         )
@@ -113,12 +134,46 @@ export default function App() {
     }
 
     function sortearPalavra() {
-        const index = Math.floor(Math.random() * (palavras.length));        
+        const index = Math.floor(Math.random() * (palavras.length));
         console.log('Palavra Sorteada', palavras[index])
 
         setPalavra(Array.from(palavras[index]))
     }
 
+    function chutarPalavra() {
+        let palavraNew = removeAcento(palavra.join(''))
+        palavraNew = palavraNew.toUpperCase()
+        const acertouChute = palavraNew === removeAcento(chute).toUpperCase()
+        setDesabilitaAlfabeto(true)
+
+        if (acertouChute) {
+            exibePalavraVerde()
+        }
+        else {
+            exibePalavraVermelho()
+            atualizaImagemForca(6)
+        }
+
+    }
+
+    function exibePalavraVerde() {
+        document.querySelectorAll('.letra').forEach(e => e.classList.add('escondido'))
+        document.querySelector('.letra-verde').classList.remove('escondido')
+        document.querySelector('.letra-vermelha').classList.add('escondido')
+    }
+
+    function exibePalavraVermelho() {
+        document.querySelector('.letra-verde').classList.add('escondido')
+        document.querySelector('.letra-vermelha').classList.remove('escondido')
+        document.querySelectorAll('.letra').forEach(e => e.classList.add('escondido'))
+    }
+
+    function exibirPalavraEscondida() {
+        document.querySelectorAll('.letra').forEach(e => {
+            e.classList.remove('escondido')
+            e.innerText = '__'
+        })
+    }
 
     return (
         <div className="cenario">
@@ -134,6 +189,13 @@ export default function App() {
                     <div>
                         {palavra.map((p, index) => exibirLetras(index))}
                     </div>
+
+                    <div className="letra-vermelha escondido">
+                        {palavra}
+                    </div>
+                    <div className="letra-verde escondido">
+                        {palavra}
+                    </div>
                 </div>
 
             </div>
@@ -143,8 +205,8 @@ export default function App() {
             </div>
             <div className="area-input">
                 <div>Já sei a palavra!</div>
-                <div><input disabled={desabilitaAlfabeto} /></div>
-                <div><button className="btn-chutar" disabled={desabilitaAlfabeto}>Chutar</button></div>
+                <div><input disabled={desabilitaAlfabeto} type="text" value={chute} onChange={(e) => setChute(e.target.value)} data-identifier="type-guess" /></div>
+                <div><button className="btn-chutar" disabled={desabilitaAlfabeto} onClick={chutarPalavra} data-identifier="guess-button">Chutar</button></div>
 
             </div>
 
