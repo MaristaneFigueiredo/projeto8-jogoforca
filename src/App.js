@@ -33,6 +33,18 @@ export default function App() {
         verificarPalpite(letra)
     }
 
+    function reiniciaJogo() {
+        setDesabilitaAlfabeto(false)
+        setQtdErros(0)
+        sortearPalavra()
+        setQtdPalpites(0)
+        setImagemForca(forca0)
+        apagaResposta()
+        setLetrasEscolhidas([])
+        setChute("")
+        
+    }
+
     function verificarPalpite(letra) {
         let acertou = false
         let erros = qtdErros
@@ -75,11 +87,25 @@ export default function App() {
             if (palavraSemAcento.indexOf(removeAcento(p)) !== -1)
                 return p
         })
+
+        const letrasPalavra = new Set(palavraSemAcento)
+        return palpitesCertos.length === letrasPalavra.size
     }
 
     function jogoFinalizado(erros) {
         return erros === 6
     }
+
+    
+    
+    function apagaResposta() {
+        document.querySelector('.letra-verde').classList.add('escondido')
+        document.querySelector('.letra-vermelha').classList.add('escondido')
+        exibirPalavraEscondida()
+    }
+
+    
+
 
     function atualizaImagemForca(erros) {
         // console.log('qtdErros =', erros)
@@ -121,25 +147,10 @@ export default function App() {
         )
     }
 
-    function exibirLetras(index) {
-        return (
-            <span key={index} data-index={index} className="letra">___</span>
-        )
-    }
 
-    function reiniciaJogo() {
-        setDesabilitaAlfabeto(false)
-        setQtdErros(0)
-        sortearPalavra()
-    }
 
-    function sortearPalavra() {
-        const index = Math.floor(Math.random() * (palavras.length));
-        console.log('Palavra Sorteada', palavras[index])
 
-        setPalavra(Array.from(palavras[index]))
-    }
-
+   
     function chutarPalavra() {
         let palavraNew = removeAcento(palavra.join(''))
         palavraNew = palavraNew.toUpperCase()
@@ -175,6 +186,20 @@ export default function App() {
         })
     }
 
+    function exibirLetras(index) {
+        return (
+            <span key={index} data-index={index} className="letra">___</span>
+        )
+    }
+
+    function sortearPalavra() {
+        const index = Math.floor(Math.random() * (palavras.length));
+        console.log('Palavra Sorteada', palavras[index])
+
+        setPalavra(Array.from(palavras[index]))
+    }
+
+
     return (
         <div className="cenario">
             <div className="area-forca">
@@ -199,6 +224,7 @@ export default function App() {
                 </div>
 
             </div>
+
             <div className="area-alfabeto">
                 {alfabeto.map((a) => exibeLetraAlfabeto(a))}
 

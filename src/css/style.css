@@ -3,6 +3,8 @@
   }
   body {
     font-family: Arial, Helvetica, sans-serif;
+   
+    margin: 54px 0 0;
   }
 
 
@@ -10,10 +12,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
-    margin-right: 100px;
+
+    /* margin-right: 100px;
     margin-left: 100px;
-    margin-top: 10px;
+    margin-top: 10px; */
     
    }
 
@@ -21,37 +23,44 @@
    .area-forca {
     display: flex;
     flex-direction: row;
+    
 
-    margin-top: 50px;
+    /* margin-top: 50px; */
   
   }
 
-  .area-forca .imagem-forca {
+    /* refletir sobre o flex-start */
+  /* .area-forca .imagem-forca {
     justify-content: flex-start;
 
   
-  }  
-  /* .imagem-forca{
-    margin-left: 370px;
-    margin-right: 370px;
-  } */
+  }   */
+
 
   .imagem-forca img {
+    /* refletir altura */
     height: 400px;
     width: 400px;
    
+
+    margin-left: 470px;
+    margin-right: 420px;
+    
   }
   
   .area-palavra {    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: end;
+    /* align-items: baseline; */
+    align-items: end; 
+
+    /* align-items: flex-start; */
     /* margin-left: 400px;
     margin-right: 100px; */
 
-    margin-left: 370px;
-    margin-right: 370px;
+    /* margin-left: 370px; */
+    margin-right: 470px;
   }
 
   .btn-escolher-palavra {
@@ -62,8 +71,11 @@
     background-color: #27AE60;
     color: #FFF;
     font-weight: bold;
-
+    cursor:pointer;
     margin-top: 30px;
+    /* margin:57px 200px 0; */
+
+
 
     
   }
@@ -79,6 +91,8 @@
     font-weight: bold;
     padding-left: 20px;
 
+    margin-right: 12px;
+
   }
   
 
@@ -89,8 +103,8 @@
     justify-content: center;
     /* margin-right: 100px;
     margin-left: 100px; */
-    margin-left: 370px;
-    margin-right: 370px;
+    margin-left: 470px;
+    margin-right: 470px;
   }
   
   .area-alfabeto button {
@@ -196,6 +210,8 @@ div button {
     padding: 10px;
     text-transform: uppercase;
     border: none;
+
+   
   }
   
   .input:focus {
@@ -205,4 +221,8 @@ div button {
   div input {
     border: solid 1px;
     border-color: lightgray;
+  }
+
+  .btn-chutar{
+    cursor: pointer;
   }
