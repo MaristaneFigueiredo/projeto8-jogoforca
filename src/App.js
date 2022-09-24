@@ -18,13 +18,83 @@ export default function App() {
     const [desabilitaAlfabeto, setDesabilitaAlfabeto] = useState(true)
     const [palavra, setPalavra] = useState([])
     const [qtdErros, setQtdErros] = useState(0)
+    const [letrasEscolhidas, setLetrasEscolhidas] = useState([])
+    const [qtdPalpites, setQtdPalpites] = useState(0)
+
+    
+
+    function palpitaLetra(letra) {
+
+        let letras = letrasEscolhidas
+        letras.push(letra)
+        setLetrasEscolhidas(letras)
+        desabilitaBotaoLetra(letra)
+        verificarPalpite(letra)
+    }
+
+    function verificarPalpite(letra){
+        let acertou = false
+        let erros = qtdErros
+        let palpites = qtdPalpites
+        palpites += 1
+        setQtdPalpites(palpites)
+
+        palavra.forEach((e, index) => {
+            if ( removeAcento( e) === removeAcento( letra)) {
+                document.querySelector(`span[data-index="${index}"]`).textContent = e
+                acertou = true
+            }
+        })
+
+        if (!acertou){
+            erros +=1
+            setQtdErros(erros)
+            // console.log('qtdErros antes =', erros)
+            atualizaImagemForca(erros)
+        }
+
+        const passouLimiteErros = jogoFinalizado(erros)
+    }
+
+    function jogoFinalizado(erros) {
+        return erros === 6
+    }
+
+    function atualizaImagemForca(erros) {
+        // console.log('qtdErros =', erros)
+        switch (erros) {
+            case 1: setImagemForca(forca1); break;
+            case 2: setImagemForca(forca2); break;
+            case 3: setImagemForca(forca3); break;
+            case 4: setImagemForca(forca4); break;
+            case 5: setImagemForca(forca5); break;
+            case 6: setImagemForca(forca6); break;
+            default: setImagemForca(forca0); break;
+        }
+    }
+
+
+
+    function removeAcento(text) {
+        text = text.toLowerCase();
+        text = text.replace(new RegExp('[ÁÀÂÃ]', 'gi'), 'a');
+        text = text.replace(new RegExp('[ÉÈÊ]', 'gi'), 'e');
+        text = text.replace(new RegExp('[ÍÌÎ]', 'gi'), 'i');
+        text = text.replace(new RegExp('[ÓÒÔÕ]', 'gi'), 'o');
+        text = text.replace(new RegExp('[ÚÙÛ]', 'gi'), 'u');
+        text = text.replace(new RegExp('[Ç]', 'gi'), 'c');
+        return text;
+    }
+
+    function desabilitaBotaoLetra(letra) {
+        document.querySelector(`button[data-index="${letra}"]`).setAttribute('disabled', true)
+    }
 
 
     function exibeLetraAlfabeto(letra) {
 
         return (
-            // <button className="btn-letra" disabled={desabilitaAlfabeto}  data-identifier="letter" data-index={letra} key={letra} onClick={() => palpitaLetra(letra)}>
-            <button className="btn-letra" disabled={desabilitaAlfabeto} data-identifier="letter" data-index={letra} key={letra}>
+            <button className="btn-letra" disabled={desabilitaAlfabeto}  data-identifier="letter" data-index={letra} key={letra} onClick={() => palpitaLetra(letra)}>           
                 {letra}
             </button>
         )
@@ -32,7 +102,7 @@ export default function App() {
 
     function exibirLetras(index) {
         return (
-            <span key={index} className="letra">___</span>
+            <span key={index} data-index={index} className="letra">___</span>
         )
     }
 
@@ -47,9 +117,8 @@ export default function App() {
         console.log('Palavra Sorteada', palavras[index])
 
         setPalavra(Array.from(palavras[index]))
-
-
     }
+
 
     return (
         <div className="cenario">
