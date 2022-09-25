@@ -209,9 +209,9 @@ export default function App() {
 
                 <div className="area-palavra">
                     <div >
-                        <button className="btn-escolher-palavra" onClick={reiniciaJogo}>Escolher Palavra</button>
+                        <button data-identifier="choose-word" className="btn-escolher-palavra" onClick={reiniciaJogo}>Escolher Palavra</button>
                     </div>
-                    <div>
+                    <div data-identifier="word">
                         {palavra.map((p, index) => exibirLetras(index))}
                     </div>
 
